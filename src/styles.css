@@ -152,5 +152,37 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    background-image: radial-gradient(
+        oklch(0.75 0.05 80 / 0.14) 1px,
+        transparent 1px
+      );
+    background-size: 4px 4px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
   }
 }
+
+@keyframes warwatch-ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.ticker {
+  animation: warwatch-ticker 60s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker {
+    animation: none;
+  }
+}
+
