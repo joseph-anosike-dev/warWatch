@@ -134,10 +134,14 @@ function Feed() {
                 .slice(0, 10)
                 .map((c) => (
                   <li key={c.handle}>
-                    <a href={`/lord/${c.handle}`} className="hover:text-seal">
+                    <Link
+                      to="/lord/$handle"
+                      params={{ handle: c.handle }}
+                      className="hover:text-seal"
+                    >
                       {c.name}{" "}
                       <span className="text-xs text-muted-foreground">@{c.handle}</span>
-                    </a>
+                    </Link>
                   </li>
                 ))}
             </ul>
