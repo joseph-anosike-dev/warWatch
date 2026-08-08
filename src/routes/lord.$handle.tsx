@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { TopBar } from "@/components/TopBar";
 import { PostCard } from "@/components/PostCard";
-import { HOUSES, getCharacter } from "@/data/characters";
+import { HOUSES, getCharacter, type Character } from "@/data/characters";
 import { POSTS } from "@/data/posts";
 import { Sigil, Verified } from "@/components/Sigil";
 import { useWarWatch } from "@/hooks/useWarWatch";
