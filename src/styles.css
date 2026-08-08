@@ -19,6 +19,11 @@
  */
 
 @theme inline {
+  --font-display: "Cinzel", "Iowan Old Style", Georgia, serif;
+  --font-sans: "EB Garamond", Georgia, "Times New Roman", serif;
+  --color-seal: var(--seal);
+  --color-seal-foreground: var(--seal-foreground);
+  --color-vellum-deep: var(--vellum-deep);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
