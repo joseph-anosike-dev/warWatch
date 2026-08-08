@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RavensRouteImport } from './routes/ravens'
+import { Route as LordHandleRouteImport } from './routes/lord.$handle'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RavensRoute = RavensRouteImport.update({
+  id: '/ravens',
+  path: '/ravens',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LordHandleRoute = LordHandleRouteImport.update({
+  id: '/lord/$handle',
+  path: '/lord/$handle',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ravens': typeof RavensRoute
+  '/lord/$handle': typeof LordHandleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ravens': typeof RavensRoute
+  '/lord/$handle': typeof LordHandleRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ravens': typeof RavensRoute
+  '/lord/$handle': typeof LordHandleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/ravens' | '/lord/$handle'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/ravens' | '/lord/$handle'
+  id: '__root__' | '/' | '/ravens' | '/lord/$handle'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  RavensRoute: typeof RavensRoute
+  LordHandleRoute: typeof LordHandleRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +68,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ravens': {
+      id: '/ravens'
+      path: '/ravens'
+      fullPath: '/ravens'
+      preLoaderRoute: typeof RavensRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lord/$handle': {
+      id: '/lord/$handle'
+      path: '/lord/$handle'
+      fullPath: '/lord/$handle'
+      preLoaderRoute: typeof LordHandleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  RavensRoute: RavensRoute,
+  LordHandleRoute: LordHandleRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
