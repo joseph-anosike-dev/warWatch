@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RavensRouteImport } from './routes/ravens'
+import { Route as LordHandleRouteImport } from './routes/lord.$handle'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const RavensRoute = RavensRouteImport.update({
   path: '/ravens',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LordHandleRoute = LordHandleRouteImport.update({
+  id: '/lord/$handle',
+  path: '/lord/$handle',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ravens': typeof RavensRoute
+  '/lord/$handle': typeof LordHandleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ravens': typeof RavensRoute
+  '/lord/$handle': typeof LordHandleRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ravens': typeof RavensRoute
+  '/lord/$handle': typeof LordHandleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ravens'
+  fullPaths: '/' | '/ravens' | '/lord/$handle'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ravens'
-  id: '__root__' | '/' | '/ravens'
+  to: '/' | '/ravens' | '/lord/$handle'
+  id: '__root__' | '/' | '/ravens' | '/lord/$handle'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   RavensRoute: typeof RavensRoute
+  LordHandleRoute: typeof LordHandleRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RavensRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lord/$handle': {
+      id: '/lord/$handle'
+      path: '/lord/$handle'
+      fullPath: '/lord/$handle'
+      preLoaderRoute: typeof LordHandleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   RavensRoute: RavensRoute,
+  LordHandleRoute: LordHandleRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

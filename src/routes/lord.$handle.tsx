@@ -54,7 +54,7 @@ function NoSuchPerson() {
 }
 
 function Profile() {
-  const { character } = Route.useLoaderData();
+  const { character } = Route.useLoaderData() as { character: Character };
   const { hydrated, ownPosts, liked, toggleQuill, removePost } = useWarWatch();
   const house = HOUSES[character.house];
 
