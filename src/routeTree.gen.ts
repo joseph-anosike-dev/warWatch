@@ -10,12 +10,24 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MapRouteImport } from './routes/map'
+import { Route as MarketsRouteImport } from './routes/markets'
 import { Route as RavensRouteImport } from './routes/ravens'
 import { Route as LordHandleRouteImport } from './routes/lord.$handle'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MapRoute = MapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketsRoute = MarketsRouteImport.update({
+  id: '/markets',
+  path: '/markets',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RavensRoute = RavensRouteImport.update({
@@ -31,30 +43,38 @@ const LordHandleRoute = LordHandleRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/map': typeof MapRoute
+  '/markets': typeof MarketsRoute
   '/ravens': typeof RavensRoute
   '/lord/$handle': typeof LordHandleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/map': typeof MapRoute
+  '/markets': typeof MarketsRoute
   '/ravens': typeof RavensRoute
   '/lord/$handle': typeof LordHandleRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/map': typeof MapRoute
+  '/markets': typeof MarketsRoute
   '/ravens': typeof RavensRoute
   '/lord/$handle': typeof LordHandleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ravens' | '/lord/$handle'
+  fullPaths: '/' | '/map' | '/markets' | '/ravens' | '/lord/$handle'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ravens' | '/lord/$handle'
-  id: '__root__' | '/' | '/ravens' | '/lord/$handle'
+  to: '/' | '/map' | '/markets' | '/ravens' | '/lord/$handle'
+  id: '__root__' | '/' | '/map' | '/markets' | '/ravens' | '/lord/$handle'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MapRoute: typeof MapRoute
+  MarketsRoute: typeof MarketsRoute
   RavensRoute: typeof RavensRoute
   LordHandleRoute: typeof LordHandleRoute
 }
@@ -66,6 +86,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/map': {
+      id: '/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/markets': {
+      id: '/markets'
+      path: '/markets'
+      fullPath: '/markets'
+      preLoaderRoute: typeof MarketsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ravens': {
@@ -87,9 +121,21 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MapRoute: MapRoute,
+  MarketsRoute: MarketsRoute,
   RavensRoute: RavensRoute,
   LordHandleRoute: LordHandleRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

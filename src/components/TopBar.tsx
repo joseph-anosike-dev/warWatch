@@ -15,6 +15,12 @@ export function TopBar() {
           <Link to="/" className="hover:text-seal" activeProps={{ className: "text-seal" }}>
             Feed
           </Link>
+          <Link to="/markets" className="hover:text-seal" activeProps={{ className: "text-seal" }}>
+            Markets
+          </Link>
+          <Link to="/map" className="hover:text-seal" activeProps={{ className: "text-seal" }}>
+            Map
+          </Link>
           <Link to="/ravens" className="hover:text-seal" activeProps={{ className: "text-seal" }}>
             Ravens
           </Link>
